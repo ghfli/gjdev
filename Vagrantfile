@@ -12,7 +12,6 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "archlinux/archlinux"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -67,4 +66,22 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
+
+  config.vm.define :alx do |alx|
+    alx.vm.box = "archlinux/archlinux"
+
+    # See details at https://github.com/vagrant-libvirt/vagrant-libvirt.
+    alx.vm.provider :libvirt do |dom|
+      # dom.cpus = 2          # default to 1
+      dom.memory = "1024"   # default to 512M
+      # Pass through /dev/random from the host to the VM
+      dom.random :model => 'random'
+    end
+
+    alx.vm.network "forwarded_port", guest: 22, host: 2222
+    alx.vm.network "forwarded_port", guest: 8080, host: 8080
+    alx.vm.synced_folder ".", "/vagrant", type: "nfs", nfs_udp: false, nfs_version: 4
+    alx.vm.provision "setup-alx", type: "shell", path: "setup-alx.sh"
+    # alx.vm.provision "file", source: "~/.gitconfig", destination: ".gitconfig"
+  end
 end
