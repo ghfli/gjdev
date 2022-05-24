@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:googleapis/youtube/v3.dart';
 import 'package:http/http.dart' as http;
 
-
 class FlutterDevPlaylists extends ChangeNotifier {
   FlutterDevPlaylists({
     required String flutterDevAccountId,
@@ -11,8 +10,8 @@ class FlutterDevPlaylists extends ChangeNotifier {
   }) : _flutterDevAccountId = flutterDevAccountId {
     _api = YouTubeApi(
       _ApiKeyClient(
-          client: http.Client(),
-          key: youTubeApiKey,
+        client: http.Client(),
+        key: youTubeApiKey,
       ),
     );
     _loadPlaylists();
@@ -31,8 +30,8 @@ class FlutterDevPlaylists extends ChangeNotifier {
       );
       _playlists.addAll(response.items!);
       _playlists.sort((a, b) => a.snippet!.title!
-        .toLowerCase()
-        .compareTo(b.snippet!.title!.toLowerCase()));
+          .toLowerCase()
+          .compareTo(b.snippet!.title!.toLowerCase()));
       notifyListeners();
     } while (nextPageToken != null);
   }
