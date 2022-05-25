@@ -22,6 +22,7 @@ doc/api/
 
 # vim temp files
 .*.swp
+Session.vim
 
 # vagrant cache
 .vagrant/

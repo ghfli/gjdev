@@ -4,8 +4,8 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'src/adaptive_playlists.dart';
 import 'src/app_state.dart';
-import 'src/playlists.dart';
 import 'src/app_secret.dart';
 
 // from https://www.youtube.com/channel/UCwXdFgeE9KYzlDdR7TG9cMw
@@ -40,7 +40,7 @@ class PlaylistsApp extends StatelessWidget {
       darkTheme: FlexColorScheme.dark(scheme: FlexScheme.red).toTheme,
       themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
       debugShowCheckedModeBanner: false,
-      home: const Playlists(),
+      home: const AdaptivePlaylists(),
     );
   }
 }

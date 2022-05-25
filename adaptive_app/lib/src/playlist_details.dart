@@ -5,46 +5,60 @@ import 'package:url_launcher/link.dart';
 
 import 'app_state.dart';
 
-
 class PlaylistDetails extends StatelessWidget {
   const PlaylistDetails(
-    {required this.playlistId, required this.playlistName, Key? key})
-    : super(key: key);
+      {required this.playlistId, required this.playlistName, Key? key})
+      : super(key: key);
   final String playlistId;
   final String playlistName;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(playlistName),
-      ),
-      body: Consumer<FlutterDevPlaylists>(
-        builder: (context, playlists, _) {
-          final playlistItems = playlists.playlistItems(playlistId:
-            playlistId);
-          if (playlistItems.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
-          }
+    return Consumer<FlutterDevPlaylists>(
+      builder: (context, playlists, _) {
+        final playlistItems = playlists.playlistItems(playlistId: playlistId);
+        if (playlistItems.isEmpty) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-          return _PlaylistDetailsListView(playlistItems: playlistItems);
-        },
-      ),
+        return _PlaylistDetailsListView(playlistItems: playlistItems);
+      },
     );
   }
 }
 
-class _PlaylistDetailsListView extends StatelessWidget {
+class _PlaylistDetailsListView extends StatefulWidget {
   const _PlaylistDetailsListView({Key? key, required this.playlistItems})
       : super(key: key);
   final List<PlaylistItem> playlistItems;
 
   @override
+  State<_PlaylistDetailsListView> createState() =>
+      _PlaylistDetailsListViewState();
+}
+
+class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: playlistItems.length,
+      controller: _scrollController,
+      itemCount: widget.playlistItems.length,
       itemBuilder: (context, index) {
-        final playlistItem = playlistItems[index];
+        final playlistItem = widget.playlistItems[index];
 
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -82,7 +96,7 @@ class _PlaylistDetailsListView extends StatelessWidget {
   }
 
   Widget _buildTitleAndSubtitle(
-    BuildContext context, PlaylistItem playlistItem) {
+      BuildContext context, PlaylistItem playlistItem) {
     return Positioned(
       left: 20,
       right: 0,
@@ -94,16 +108,16 @@ class _PlaylistDetailsListView extends StatelessWidget {
           Text(
             playlistItem.snippet!.title!,
             style: Theme.of(context).textTheme.bodyText1!.copyWith(
-              fontSize: 18,
-              // fontWeight: FontWeight.bold,
-            ),
+                  fontSize: 18,
+                  // fontWeight: FontWeight.bold,
+                ),
           ),
           if (playlistItem.snippet!.videoOwnerChannelTitle != null)
             Text(
               playlistItem.snippet!.videoOwnerChannelTitle!,
               style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                fontSize: 12,
-              ),
+                    fontSize: 12,
+                  ),
             ),
         ],
       ),
@@ -114,26 +128,27 @@ class _PlaylistDetailsListView extends StatelessWidget {
     return Stack(
       alignment: AlignmentDirectional.center,
       children: [
-          Container(
-            width: 42,
-            height: 42,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(21),),
-              ),
+        Container(
+          width: 42,
+          height: 42,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(21),
+            ),
           ),
-          Link(
-            uri: Uri.parse(
-              'https://www.youtube.com/watch?v=${playlistItem.snippet!.resourceId!.videoId}'
-              ),
-            builder: (context, followLink) => IconButton(
-              onPressed: followLink,
-              color: Colors.red,
-              icon: const Icon(Icons.play_circle_fill),
-              iconSize: 45,
-              ),
+        ),
+        Link(
+          uri: Uri.parse(
+              'https://www.youtube.com/watch?v=${playlistItem.snippet!.resourceId!.videoId}'),
+          builder: (context, followLink) => IconButton(
+            onPressed: followLink,
+            color: Colors.red,
+            icon: const Icon(Icons.play_circle_fill),
+            iconSize: 45,
           ),
-        ],
-     );
+        ),
+      ],
+    );
   }
 }
