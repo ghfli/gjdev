@@ -6,17 +6,15 @@ import 'package:provider/provider.dart';
 import 'src/adaptive_login.dart';
 import 'src/adaptive_playlists.dart';
 import 'src/app_state.dart';
+import 'src/app_secret.dart';
 
 final scopes = [
   'https://www.googleapis.com/auth/youtube.readonly',
 ];
 
 // TODO: Replace with your Client ID and Client Secret for Desktop
-// configuration
-final clientId = ClientId(
-  'TODO-Client-ID.apps.googleuserconent.com',
-  'TODO-Client-secret',
-);
+// configuration in src/app_secret.dart
+final clientId = ClientId(myClientId, myClientSecret,);
 
 void main() {
   runApp(ChangeNotifierProvider<AuthedUserPlaylists>(
