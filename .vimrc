@@ -23,7 +23,8 @@
 "<C-j>/<C-k>       在snippets的替换模块间移动
 "
 "------------------vim基本属性配置
-set exrc
+set nocompatible " be iMproved
+set exrc         " run .vimrc in the local directory
 colorscheme ron
 set number       " 显示行号
 set confirm      " 在处理未保存或只读文件的时候，弹出确认
@@ -31,7 +32,8 @@ set confirm      " 在处理未保存或只读文件的时候，弹出确认
 set encoding=utf-8
 set fileencodings=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936,utf-16,big5,euc-jp,latin1
 
-set listchars=eol:$,tab:>-,trail:·,extends:>,precedes:<,space:·  "  不可见字符的格式
+" 不可见字符的格式
+set	listchars=eol:$,tab:>-,trail:-,extends:>,precedes:<,space:-  
 "set list      " 显示不可见字符
 
 set tabstop=4          	"  设置Tab键宽度为多少个空格，但注意并不替换
