@@ -20,10 +20,12 @@ class AuthedUserPlaylists extends ChangeNotifier {
         maxResults: 50,
         pageToken: nextPageToken,
       );
-      _playlists.addAll(response.items!);
-      _playlists.sort((a, b) => a.snippet!.title!
-          .toLowerCase()
-          .compareTo(b.snippet!.title!.toLowerCase()));
+      if (response.items != null) {
+        _playlists.addAll(response.items!);
+        _playlists.sort((a, b) => a.snippet!.title!
+            .toLowerCase()
+            .compareTo(b.snippet!.title!.toLowerCase()));
+      }
       notifyListeners();
     } while (nextPageToken != null);
   }

@@ -17,7 +17,8 @@ class Playlists extends StatelessWidget {
         final playlists = flutterDev.playlists;
         if (playlists.isEmpty) {
           return const Center(
-            child: CircularProgressIndicator(),
+            // child: CircularProgressIndicator(),
+            child: Text('No available playlist'),
           );
         }
 

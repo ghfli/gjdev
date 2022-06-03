@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/link.dart';
+import 'app_secret.dart';
 
 typedef AdaptiveLoginBuilder = Widget Function(
   BuildContext context,
@@ -75,6 +76,7 @@ class _GoogleSignInLoginState extends State<_GoogleSignInLogin> {
     super.initState();
     _googleSignIn = GoogleSignIn(
       scopes: widget.scopes,
+      clientId: googleSigninClientId, // defined in app_secret.dart
     );
     _googleSignIn.onCurrentUserChanged.listen((acount) {
       if (acount != null) {
